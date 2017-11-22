@@ -1,0 +1,24 @@
+# Название приложения
+app_name: staging-donnikanton
+
+# Юзер приложения
+app_user: vagrant
+
+# Организация
+org: project
+
+# Домены приложения
+domain: test-2710175714.cloudapp.net
+
+git_version: master
+
+# Домменная зона
+app_domain: cloudapp.net
+
+#DOCKER#
+
+#docker_db_data:    "{{app_path}}/db_data"
+docker_myphp:      "{{app_path}}/myphp"
+docker_nginx:      "{{app_path}}/nginx"
+docker_logs:       "{{app_path}}/logs"
+docker_logs_nginx: "{{app_path}}/logs/nginx"
