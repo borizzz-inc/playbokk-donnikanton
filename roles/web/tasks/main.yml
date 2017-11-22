@@ -115,4 +115,8 @@
     dest: "{{app_path}}/nginx/nginx.conf"
   tags: nginxd
 
-
+- name: docker-compose up -d
+  shell: docker-compose up -d
+  args:
+    chdir: "{{app_path}}/"
+  tags: up
