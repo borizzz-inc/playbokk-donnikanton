@@ -2,8 +2,7 @@
 app_name: donnikanton
 
 # Юзер приложения
-app_user: tvil
-
+app_user: root
 # Организация
 
 org: project

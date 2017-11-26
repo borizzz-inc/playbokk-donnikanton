@@ -1,14 +1,14 @@
-nginx:
-    image: nginx:latest
-    ports:
-        - '80:80'
-    volumes:
-        - ./nginx:/etc/nginx/conf.d
-        - ./logs/nginx:/var/log/nginx
-        - ./myphp:/var/www/html
-    links:
-        - myphp
-    restart: always
+#nginx:
+#    image: nginx:latest
+#    ports:
+#        - '80:80'
+#    volumes:
+#        - ./nginx:/etc/nginx/conf.d
+#        - ./logs/nginx:/var/log/nginx
+#        - /var/www/html:/var/www/html
+#    links:
+#        - myphp
+#    restart: always
 
 
 
@@ -20,32 +20,16 @@ mysql:
         - ./db-data:/var/lib/mysql
     environment:
         - MYSQL_ROOT_PASSWORD=aqwe123
-    restart: always 
-
-
-
-myphp:
-    image: php:fpm
-    ports:
-        - '9000:9000'
-    volumes:
-        - ./myphp:/var/www/html
-    environment:
-        - myphp_DB_NAME=wpdb
-        - myphp_TABLE_PREFIX=wp_
-        - myphp_DB_HOST=mysql
-        - myphp_DB_PASSWORD=aqwe123
-    links:
-        - mysql
     restart: always
 
 
+
 myphp:
     image: php:fpm
     ports:
         - '9000:9000'
     volumes:
-        - ./myphp:/var/www/html
+        - /var/www/html:/var/www/html
     environment:
         - myphp_DB_NAME=wpdb
         - myphp_TABLE_PREFIX=wp_

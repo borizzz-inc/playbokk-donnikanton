@@ -6,32 +6,32 @@
     - nginx
     - nginx-extras
 
-- name: Проверяем, dhparam.pem
-  stat:
-  become: true
-  become_user: '{{app_user}}'
-  args:
-    path: /etc/nginx/dhparam.pem
-  register: dhparam_check
+#- name: Проверяем, dhparam.pem
+#  stat:
+#  become: true
+#  become_user: '{{app_user}}'
+#  args:
+#    path: /etc/nginx/dhparam.pem
+#  register: dhparam_check
 
-- name: 'nginx | create dhparam'
-  command: 'openssl dhparam -out /etc/nginx/dhparam.pem 2048'
-  register: nginx_config_copied
-  when: dhparam_check.stat.exists == False
+#- name: 'nginx | create dhparam'
+#  command: 'openssl dhparam -out /etc/nginx/dhparam.pem 2048'
+#  register: nginx_config_copied
+#  when: dhparam_check.stat.exists == False
 
-- name: 'nginx | check config'
-  command: 'test -f /etc/nginx/sites-enabled/nginx.conf'
-  register: nginx_config_copied
-  ignore_errors: yes
+#- name: 'nginx | check config'
+#  command: 'test -f /etc/nginx/sites-enabled/nginx.conf'
+#  register: nginx_config_copied
+#  ignore_errors: yes
 
-- name: 'nginx | createdir'
-  shell: 'rm /etc/nginx/sites-enabled/default; mkdir -p etc/nginx/sites-enabled/'
-  when: nginx_config_copied|failed
+#- name: 'nginx | createdir'
+#  shell: 'rm /etc/nginx/sites-enabled/default; mkdir -p etc/nginx/sites-enabled/'
+#  when: nginx_config_copied|failed
 
 - name: 'nginx | copy config'
   template:
     src: nginx.conf
-    dest: /etc/nginx/sites-enabled/nginx.conf 
+    dest: /etc/nginx/sites-enabled/tvil
     owner: root
     group: root
     mode: 0644

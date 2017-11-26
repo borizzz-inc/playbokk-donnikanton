@@ -34,7 +34,7 @@
   roles:
 
   - { role: web, tags: ['web']}
- # - { role: nginx, tags: ['nginx']}
+  - { role: nginx, tags: ['nginx']}
  # - { role: logrotate, tags: ['logrotate']}
 
 

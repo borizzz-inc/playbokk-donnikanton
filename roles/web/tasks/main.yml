@@ -1,12 +1,8 @@
 ---
 # Обновление кеша и установка необходимых пакетов, всего программного обеспечения,
 # необходимого для работы нашего сервера
-
-- name: 'apt | update'
-  action: 'apt update_cache=yes'
-
-- name: 'apt | install dependencies'
-  action: 'apt pkg={{ item }}'
+- name: install
+  apt: name={{item}} state=present update_cache=yes
   with_items:
     - 'openssl'
     - 'libssl-dev'
@@ -70,10 +66,10 @@
 
 - name: 'clone from git repo'
   become: true
-  become_user: '{{app_user}}'
+  become_user: 'www-data'
   git:
     repo: 'https://github.com/donnikanton/php.git'
-    dest: '{{docker_myphp}}'
+    dest: '/var/www/html'
     version: '{{git_version}}'
     accept_hostkey: yes
     force: yes
