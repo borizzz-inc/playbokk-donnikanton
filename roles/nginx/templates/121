@@ -1,0 +1,68 @@
+    upstream docker {
+    server 0.0.0.0:5601;
+    }
+
+    server {
+        listen 80;
+        server_name devops-201120174007.cloudapp.net;
+
+        access_log /var/log/nginx/tvil-access.log tvil;
+        error_log /var/log/nginx/tvil-error.log;
+
+
+   location / {
+        root /var/www/html;
+	    index index.php;
+
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass localhost:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+
+
+    location /zabbix {
+    root /usr/share/;
+    index index.php index.html index.htm;
+    access_log /var/log/nginx/zabbix-access.log;
+
+    location ~ \.php$ {
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    include        fastcgi_params;
+    }
+   }
+
+
+    location /elk {
+    proxy_pass                          http://docker/;
+    }
+
+
+    location ~ ^/(bundles|api|bundles/commons|plugins|api|ui) {
+      proxy_pass                          http://docker;
+
+    }
+
+    location /app/timelion {
+      proxy_pass                          http://docker;
+
+    }
+
+     location /app/kibana {
+
+      proxy_redirect off;
+      proxy_pass                          http://docker;
+      proxy_set_header  Host              $host;   # required for docker client's sake
+      proxy_set_header  X-Real-IP         $remote_addr; # pass on real client's IP
+      proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
+      proxy_set_header  X-Forwarded-Proto $scheme;
+      proxy_read_timeout                  900;
+    }
+
+
+}
+
